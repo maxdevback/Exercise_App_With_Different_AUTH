@@ -8,8 +8,11 @@ class PagesController {
   }
   async signupPage(req: Request, res: Response) {
     try {
-      res.send("signupPage");
-    } catch (err) {}
+      res.render("signup");
+    } catch (err) {
+      console.log(err);
+      res.send(err);
+    }
   }
   async active(req: Request, res: Response) {
     try {

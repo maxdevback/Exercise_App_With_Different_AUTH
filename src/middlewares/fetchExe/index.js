@@ -1,10 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import DBLogic from "../../db/logic";
+import DBLogic from "../../db/logic/index.js";
 
-export const fetchExer = (req: Request, res: Response, next: NextFunction) => {
+export const fetchExes = async (req, res, next) => {
   try {
-    //@ts-ignore
-    const exer: any = DBLogic.getExes(req.user.id);
+    const exer = await DBLogic.getExes(req.user.id);
     res.locals.exer = exer;
     res.locals.activeCount = exer.filter((todo) => {
       return !todo.completed;

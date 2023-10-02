@@ -62,7 +62,6 @@
         <% } %>
         <% if (activeCount + completedCount > 0) { %>
     <footer class="footer">
-        <span class="todo-count"><strong><%= activeCount %></strong><%= pluralize(' item', activeCount) %> left</span>
         <ul class="filters">
             <li>
                 <a <%- !filter ? 'class="selected"' : '' %> href="/">All</a>
@@ -74,14 +73,6 @@
                 <a <%- filter == 'completed' ? 'class="selected"' : '' %> href="/completed">Completed</a>
                 </li>
         </ul>
-        <% if(completedCount > 0) { %>
-        <form action="/clear-completed" method="post">
-            <button class="clear-completed">Clear Completed</button>
-            <% if (filter) { %>
-                <input type="hidden" name="filter" value="<%= filter %>" />
-                <% } %>
-        </form>
-        <% } %>
     </footer>
     <% } %>
 </section>

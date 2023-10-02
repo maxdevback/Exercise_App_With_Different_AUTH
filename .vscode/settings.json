@@ -1,0 +1,10 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:Exe_App}/src/db/exer.db",
+      "name": "1"
+    }
+  ]
+}

@@ -12,12 +12,10 @@ class DBController {
   }
   async postExes(req, res) {
     try {
-      console.log(req.body);
+      if (!req.body.title) throw new Error("Body is absent");
       await DBLogic.addExes(req.user.id, req.body.title, req.body.completed);
-      console.log(req.ow);
       return res.redirect("/" + (req.body.filter || ""));
     } catch (err) {
-      console.log(err);
       res.render("error", {
         message: err,
       });
@@ -25,6 +23,7 @@ class DBController {
   }
   async update(req, res) {
     try {
+      if (!req.body.title) throw new Error("Body is absent");
       await DBLogic.updateExes(
         req.body.title,
         req.body.completed !== undefined ? 1 : null,
@@ -38,10 +37,16 @@ class DBController {
       });
     }
   }
-  active(req, res, next) {
-    res.locals.exer = res.locals.exer.filter((todo) => !todo.completed);
-    res.locals.filter = "active";
-    res.render("index", { user: req.user });
+  active(req, res) {
+    try {
+      res.locals.exer = res.locals.exer.filter((todo) => !todo.completed);
+      res.locals.filter = "active";
+      res.render("index", { user: req.user });
+    } catch (err) {
+      res.render("error", {
+        message: err,
+      });
+    }
   }
 
   completed(req, res) {

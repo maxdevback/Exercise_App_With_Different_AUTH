@@ -9,6 +9,8 @@ class AuthController {
     }
   }
   async signupPost(req, res) {
+    if (!req.body.username || !req.body.password)
+      throw new Error("Body is absent");
     const hashedPassword = await hashPassword(req.body.password, 10);
     const user = await DBLogic.signup(req.body.username, hashedPassword);
 

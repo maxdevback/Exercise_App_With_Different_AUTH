@@ -10,7 +10,6 @@ class DBLogic {
       filename: path.join(path.dirname(process.argv[1]), "db", "exer.db"),
       driver: sqlite3.Database,
     }).then(async (db) => {
-      console.log(db);
       await this._init(db.getDatabaseInstance());
       return db;
     });
@@ -50,7 +49,6 @@ class DBLogic {
     });
   }
   async getExes(ownerId) {
-    console.log(this.db);
     const res = await (
       await this.db
     ).all("SELECT * FROM exer WHERE owner_id = ?", [ownerId]);
@@ -99,19 +97,16 @@ class DBLogic {
       "SELECT * FROM federated_credentials WHERE provider = ? AND subject = ?",
       [provider, subject]
     );
-    console.log(res);
     if (!res) {
       const res2 = await (
         await this.db
       ).run("INSERT INTO users (name) VALUES (?)", [displayName]);
-      console.log("EEEEEEEE", res2, provider, subject);
       await (
         await this.db
       ).run(
         "INSERT INTO federated_credentials (user_id, provider, subject) VALUES (?, ?, ?)",
         [res2.lastID, provider, subject]
       );
-      console.log("Err2");
       return {
         id: res2.lastID,
         name: subject,
@@ -124,20 +119,17 @@ class DBLogic {
   }
   async signup(username, hashedPassword) {
     //const db = await this.db();
-    console.log("Here");
     const res = await (
       await this.db
     ).run("INSERT INTO users (username, hashed_password) VALUES (?,?)", [
       username,
       hashedPassword,
     ]);
-    console.log(res);
     return { username, id: res.lastID };
     //   const state = await db.run(
     //     "INSERT INTO users (username, hashed_password) VALUES (?,?)",
     //     [username, hashedPassword]
     //   );
-    //   console.log(state);
   }
   async updateExes(title, completed, owner_id, exes_id) {
     const res = await (
